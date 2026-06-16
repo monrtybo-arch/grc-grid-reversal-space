@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: grc-grid-reversal-web
+    runtime: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
