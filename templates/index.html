@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRC Grid Reversal Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Web Tool</p>
+        <h1>GRC 网格加扰 / 解码网页版</h1>
+        <p class="hero-text">
+          基于你现有的 `Grid_Reversal_Enc.py` 和 `Grid_Reversal_Dec.py` 逻辑包装。
+          直接上传图片、GIF 或视频，在网页里完成编码或解码。
+        </p>
+      </div>
+
+      <div class="hero-panel">
+        <div class="badge-row">
+          <span>16 × 16</span>
+          <span>16 × 18</span>
+          <span>图片 / GIF / 视频</span>
+        </div>
+
+        <form id="process-form" class="tool-panel">
+          <div class="field-group">
+            <span class="field-label">处理模式</span>
+            <div class="segmented">
+              <label>
+                <input type="radio" name="mode" value="encode" checked>
+                <span>编码加扰</span>
+              </label>
+              <label>
+                <input type="radio" name="mode" value="decode">
+                <span>解码还原</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="upload-zone" for="file-input">
+              <input id="file-input" name="file" type="file" accept=".png,.jpg,.jpeg,.bmp,.tiff,.webp,.gif,.mp4,.mov,.avi,.webm" required>
+              <strong>点击选择文件</strong>
+              <span>支持 PNG / JPG / WEBP / GIF / MP4 / MOV / AVI / WEBM</span>
+              <em id="file-name">未选择文件</em>
+            </label>
+          </div>
+
+          <button id="submit-button" class="primary-button" type="submit">开始处理</button>
+          <p id="status" class="status">等待上传</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="result-section">
+      <div class="section-head">
+        <p class="eyebrow">Result</p>
+        <h2>处理结果</h2>
+      </div>
+
+      <div class="result-grid">
+        <div class="preview-panel">
+          <div id="preview-empty" class="preview-empty">处理完成后在这里预览</div>
+          <img id="image-preview" class="preview-media hidden" alt="结果预览">
+          <video id="video-preview" class="preview-media hidden" controls playsinline></video>
+        </div>
+
+        <div class="result-card">
+          <div class="result-meta">
+            <span>输出文件</span>
+            <strong id="result-name">暂无</strong>
+          </div>
+          <a id="download-link" class="download-link disabled" href="#" aria-disabled="true">下载结果</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
