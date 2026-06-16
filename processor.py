@@ -71,7 +71,8 @@ def encode_image_grid(input_path: str, output_path: str) -> None:
         img = img.resize((clean_w, clean_h), Image.LANCZOS)
 
     out_h = tile_h * GRID_ROWS_SCRAMBLED
-    scrambled = Image.new("RGB", (clean_w, out_h), color=(0, 0, 0))
+    scrambled = Image.new("RGB", (clean_w, out_h))
+    _fill_watermark_rows(scrambled, img, tile_w, tile_h)
 
     for row in range(GRID_ROWS_CLEAN):
         for col in range(GRID_COLS):
@@ -103,6 +104,17 @@ def decode_image_grid(input_path: str, output_path: str) -> None:
             restored.paste(tile, (col * tile_w, row * tile_h))
 
     restored.save(output_path, quality=95)
+
+
+def _fill_watermark_rows(canvas: Image.Image, source: Image.Image, tile_w: int, tile_h: int) -> None:
+    """Fill the two discarded rows with mirrored source tiles instead of black."""
+    for out_row, src_row in enumerate((1, 0)):
+        for col in range(GRID_COLS):
+            src_col = GRID_COLS - 1 - col
+            left = src_col * tile_w
+            upper = src_row * tile_h
+            tile = source.crop((left, upper, left + tile_w, upper + tile_h))
+            canvas.paste(tile, (col * tile_w, out_row * tile_h))
 
 
 def encode_video(input_path: str, output_path: str) -> None:
@@ -216,7 +228,8 @@ def _transform_image_frame(frame: Image.Image, mode: str) -> Image.Image:
         clean_h = tile_h * GRID_ROWS_CLEAN
         if (width, height) != (clean_w, clean_h):
             frame = frame.resize((clean_w, clean_h), Image.LANCZOS)
-        out = Image.new("RGB", (clean_w, tile_h * GRID_ROWS_SCRAMBLED), color=(0, 0, 0))
+        out = Image.new("RGB", (clean_w, tile_h * GRID_ROWS_SCRAMBLED))
+        _fill_watermark_rows(out, frame, tile_w, tile_h)
         for row in range(GRID_ROWS_CLEAN):
             for col in range(GRID_COLS):
                 sr = GRID_ROWS_SCRAMBLED - 1 - row
