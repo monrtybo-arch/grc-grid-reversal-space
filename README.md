@@ -1,12 +1,12 @@
 ---
 title: GRC Grid Reversal Web
 emoji: 🎞️
-colorFrom: emerald
+colorFrom: green
 colorTo: gray
 sdk: docker
 pinned: false
 license: mit
-short_description: Grid reversal encode/decode web app for images, GIFs, and videos.
+short_description: Grid reversal web app.
 ---
 
 # GRC Grid Reversal Web
