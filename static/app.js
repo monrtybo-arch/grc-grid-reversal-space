@@ -8,6 +8,37 @@ const videoPreview = document.querySelector("#video-preview");
 const previewEmpty = document.querySelector("#preview-empty");
 const resultName = document.querySelector("#result-name");
 const downloadLink = document.querySelector("#download-link");
+const modeHint = document.querySelector("#mode-hint");
+const modeInputs = document.querySelectorAll("input[name='mode']");
+
+const modeCopy = {
+  decode: {
+    button: "开始解码",
+    hint: "上传已加扰、带顶部水印区的文件，输出还原后的 16 × 16 画面。",
+  },
+  encode: {
+    button: "开始编码",
+    hint: "上传干净的 16 × 16 网格画面，输出带顶部两行水印区的 16 × 18 加扰文件。",
+  },
+};
+
+function getSelectedMode() {
+  return document.querySelector("input[name='mode']:checked")?.value || "decode";
+}
+
+function syncModeCopy() {
+  const copy = modeCopy[getSelectedMode()];
+  if (copy) {
+    submitButton.textContent = copy.button;
+    modeHint.textContent = copy.hint;
+  }
+}
+
+modeInputs.forEach((input) => {
+  input.addEventListener("change", syncModeCopy);
+});
+
+syncModeCopy();
 
 fileInput.addEventListener("change", () => {
   const [file] = fileInput.files;
@@ -24,6 +55,7 @@ form.addEventListener("submit", async (event) => {
   }
 
   const formData = new FormData(form);
+  const activeMode = getSelectedMode();
   submitButton.disabled = true;
   submitButton.textContent = "处理中...";
   statusNode.textContent = "上传并处理中，请稍等";
@@ -61,6 +93,6 @@ form.addEventListener("submit", async (event) => {
     statusNode.textContent = error.message || "处理失败";
   } finally {
     submitButton.disabled = false;
-    submitButton.textContent = "开始处理";
+    submitButton.textContent = modeCopy[activeMode]?.button || "开始处理";
   }
 });

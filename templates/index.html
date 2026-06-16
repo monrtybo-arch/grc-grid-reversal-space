@@ -33,14 +33,15 @@
             <span class="field-label">处理模式</span>
             <div class="segmented">
               <label>
-                <input type="radio" name="mode" value="encode" checked>
-                <span>编码加扰</span>
-              </label>
-              <label>
-                <input type="radio" name="mode" value="decode">
+                <input type="radio" name="mode" value="decode" checked>
                 <span>解码还原</span>
               </label>
+              <label>
+                <input type="radio" name="mode" value="encode">
+                <span>编码加扰</span>
+              </label>
             </div>
+            <p class="mode-hint" id="mode-hint">上传已加扰、带顶部水印区的文件，输出还原后的 16 × 16 画面。</p>
           </div>
 
           <div class="field-group">
@@ -52,7 +53,7 @@
             </label>
           </div>
 
-          <button id="submit-button" class="primary-button" type="submit">开始处理</button>
+          <button id="submit-button" class="primary-button" type="submit">开始解码</button>
           <p id="status" class="status">等待上传</p>
         </form>
       </div>
