@@ -38,5 +38,5 @@ python app.py
 
 ```bash
 docker build -t grc-grid-reversal-web .
-docker run -p 10000:10000 grc-grid-reversal-web
+docker run -p 7860:7860 grc-grid-reversal-web
 ```
